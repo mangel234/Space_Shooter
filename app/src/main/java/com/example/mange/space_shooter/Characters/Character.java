@@ -1,4 +1,4 @@
-package com.example.mange.space_shooter;
+package com.example.mange.space_shooter.Characters;
 
 import android.media.SoundPool;
 

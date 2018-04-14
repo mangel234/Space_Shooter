@@ -1,7 +1,12 @@
-package com.example.mange.space_shooter;
+package com.example.mange.space_shooter.Characters;
 
-public class Player extends Character {
+import com.example.mange.space_shooter.Characters.Character;
 
+/**
+ * Created by mangel234 on 4/14/18.
+ */
+
+public class Enemy extends Character {
 
     //Actions enemy/player can perform
     /**Method to fire projectiles and move down**/
