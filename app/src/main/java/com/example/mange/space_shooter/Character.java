@@ -1,3 +1,5 @@
+package com.example.mange.space_shooter;
+
 import android.media.SoundPool;
 
 /**
@@ -33,7 +35,7 @@ public abstract class Character {
     /**Method to fire projectiles and move down**/
     public void action(){}
     /**Method to draw out the enemy/player**/
-    public boolean draw(){}
+    public boolean draw(){return true;}
     /**Method for enemy passing away*/
     public void onDeath(){}
 
