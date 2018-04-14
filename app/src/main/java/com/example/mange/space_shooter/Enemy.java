@@ -1,7 +1,6 @@
 package com.example.mange.space_shooter;
 
-public class Player extends Character {
-
+public class Enemy extends Character {
 
     //Actions enemy/player can perform
     /**Method to fire projectiles and move down**/
