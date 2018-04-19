@@ -20,9 +20,9 @@ public class Space extends View {
     private final List<SelectionListener> listeners = new ArrayList<>();
     private final Paint boardPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     {
-        int boardColor = Color.rgb(0, 0, 255);
+        int boardColor = Color.rgb(45, 34, 25);
         boardPaint.setColor(boardColor);
-        boardPaint.setAlpha(80); // semi transparent
+        boardPaint.setAlpha(45); // semi transparent
     }
 
     public Space(Context context, AttributeSet attrs) { //@cons

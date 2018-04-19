@@ -12,6 +12,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="104dp"
         android:layout_marginTop="104dp"
+        android:onClick="beginNew"
         android:text="New Game"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
