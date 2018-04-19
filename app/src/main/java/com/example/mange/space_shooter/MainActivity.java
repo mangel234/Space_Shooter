@@ -18,11 +18,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private float currentstate;
     private float gravity;
     private float linear_acceleration;
+    private Space area;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        area = findViewById(R.id.area);
         activateSensors();
+    }
+    private void init(){
     }
     @Override
     protected void onResume() {
