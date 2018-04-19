@@ -15,6 +15,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
     private SensorManager senseManagement; //= (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     private Sensor sense;// = senseManagement.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    private float currentstate;
     private float gravity;
     private float linear_acceleration;
     @Override
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private void activateSensors(){
         senseManagement = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sense = senseManagement.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        toast("activated");
+        currentstate = 0;
     }
 
     @Override
@@ -59,10 +60,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         gravity = alpha * gravity + (1 - alpha) * event.values[0];
         // Remove the gravity contribution with the high-pass filter.
         linear_acceleration = event.values[0] - gravity;
-        if(linear_acceleration > 0.1)
-            toast("device tilted to the left");
-        if(linear_acceleration < -0.1)
-            toast("device tilted to the right");
+        if(linear_acceleration > 0.2)
+            toast("device tilted to the left " + Float.toString(linear_acceleration));
+        if(linear_acceleration < -0.2)
+            toast("device tilted to the right " + Float.toString(linear_acceleration));
 
     }
 
