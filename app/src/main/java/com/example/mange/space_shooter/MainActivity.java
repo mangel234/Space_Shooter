@@ -60,9 +60,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         gravity = alpha * gravity + (1 - alpha) * event.values[0];
         // Remove the gravity contribution with the high-pass filter.
         linear_acceleration = event.values[0] - gravity;
-        if(linear_acceleration > 0.2)
+        if(linear_acceleration > 0.2 && currentstate > 0.2) //if being tilted to the left and already tilted left
+            currentstate = linear_acceleration;
+        else if(linear_acceleration < -0.2 && currentstate < -0.2) //if already tilted right and being tilted right
+            currentstate = linear_acceleration;
+        else if(linear_acceleration < -0.2 && currentstate > -0.2)  //if being tilted right but was already tilted left
+            currentstate += linear_acceleration;
+        else if(linear_acceleration > 0.2 && currentstate < 0.2)  //if being tilted left but was already tilted right
+            currentstate += linear_acceleration;
+        else
+            currentstate = linear_acceleration;
+        if(currentstate > 0.2)
             toast("device tilted to the left " + Float.toString(linear_acceleration));
-        if(linear_acceleration < -0.2)
+        if(currentstate < -0.2)
             toast("device tilted to the right " + Float.toString(linear_acceleration));
 
     }
