@@ -7,7 +7,12 @@ import com.example.mange.space_shooter.Characters.Character;
  */
 
 public class Enemy extends Character {
-
+    public Enemy(){
+        super();
+    }
+    public Enemy(int level){
+        super(level);
+    }
     //Actions enemy/player can perform
     /**Method to fire projectiles and move down**/
     @Override

@@ -15,7 +15,16 @@ public abstract class Character {
     protected double y;
     protected SoundPool player;
 
-
+    public Character(){
+        curHealth = 1;
+        maxHealth=1;
+        movement = 1;
+    }
+    public  Character(int level){
+        curHealth = level + 1;
+        maxHealth = level + 1;
+        movement = 1;
+    }
     //Setters
     public void setX(double x){this.x = x;}
     public void setY(double y){this.y = y;}

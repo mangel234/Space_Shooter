@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="com.example.mange.space_shooter.MainActivity">
 
     <com.example.mange.space_shooter.Space
         android:id="@+id/space"

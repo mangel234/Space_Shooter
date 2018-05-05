@@ -1,13 +1,15 @@
 package com.example.mange.space_shooter;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+
+import com.example.mange.space_shooter.Characters.Character;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +21,7 @@ import java.util.List;
 public class Space extends View {
     private final List<SelectionListener> listeners = new ArrayList<>();
     private final Paint boardPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    {
-        int boardColor = Color.rgb(45, 34, 25);
-        boardPaint.setColor(boardColor);
-        boardPaint.setAlpha(45); // semi transparent
-    }
+    public BoardConfiguration board = new BoardConfiguration();
 
     public Space(Context context, AttributeSet attrs) { //@cons
         this(context, attrs, 0);
@@ -38,6 +36,7 @@ public class Space extends View {
         setSaveEnabled(true);
         //getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
     }
+
     public interface SelectionListener {
 
         /**
@@ -50,9 +49,5 @@ public class Space extends View {
     }
     @Override
     protected void onDraw(Canvas canvas) {}
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return true;
-    }
 
     }
