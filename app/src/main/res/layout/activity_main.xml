@@ -15,8 +15,8 @@
         android:fadingEdge="vertical"
         android:padding="10dip"
         android:scrollbars="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="107dp" />
 
     <TextView
         android:id="@+id/textView2"
