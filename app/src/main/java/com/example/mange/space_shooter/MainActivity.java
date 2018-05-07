@@ -1,5 +1,6 @@
 package com.example.mange.space_shooter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -10,20 +11,17 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.example.mange.space_shooter.Characters.Pink;
-
-public class MainActivity extends AppCompatActivity implements SensorEventListener{
+public class MainActivity extends Activity implements SensorEventListener{
     private SensorManager senseManagement; //= (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     private Sensor sense;// = senseManagement.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     private int playerState;
-    private Space customView;
+    private SpaceshipView customView;
     private BoardConfiguration board;
-
+    SpaceshipView spaceshipView;
     private float gravity;
     private float linear_acceleration;
     private float currentstate;
@@ -31,25 +29,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public static float xPos, xAccel, xVel = 0.0f;
     public static float yPos, yAccel, yVel = 0.0f;
-    private float xMax, yMax;
-    public static Bitmap ship;
+    public static  float xMax, yMax;
     private SensorManager sensorManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Space playerShip = new Space(this);
-        setContentView(playerShip);
 
-        Point size = new Point();
         Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
         display.getSize(size);
+
         xMax = (float) size.x - 100;
         yMax = (float) size.y - 100;
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-
+        //Initialize gameView
+        spaceshipView = new SpaceshipView(this, size.x,size.y);
+        setContentView(spaceshipView);
     }
 
     @Override
@@ -65,7 +63,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        // Tell the gameView resume method to execute
+        spaceshipView.resume();
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+
+    }
+
+    // This method executes when the player quits the game
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Tell the gameView pause method to execute
+       spaceshipView.pause();
+        sensorManager.unregisterListener(this);
+    }
     @Override
     public final void onAccuracyChanged(Sensor sensor, int accuracy) {
         //No calibration Needed
