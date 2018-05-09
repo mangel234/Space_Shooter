@@ -84,7 +84,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
             // Now draw the player spaceship
             //canvas.drawBitmap(playerShip.getBitmap(), playerShip.getX(), screenY - 50, paint);
-            canvas.drawBitmap(playerShip.getBitmap(),MainActivity.xPos, MainActivity.yMax, SpaceshipView.paint);
+            canvas.drawBitmap(playerShip.getBitmap(),MainActivity.xPos, MainActivity.yMax-100, SpaceshipView.paint);
 
 
             // Draw the score and remaining lives

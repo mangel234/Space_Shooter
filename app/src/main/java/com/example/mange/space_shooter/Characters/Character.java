@@ -11,8 +11,8 @@ public abstract class Character {
     protected int curHealth;
     protected int maxHealth;
     protected double movement;
-    protected double x;
-    protected double y;
+    protected float posX;
+    protected float posY;
     protected SoundPool player;
 
     public Character(){
@@ -25,19 +25,25 @@ public abstract class Character {
         maxHealth = level + 1;
         movement = 1;
     }
+    public  Character(float x, float y, int level){
+        curHealth = level + 1;
+        maxHealth = level + 1;
+        movement = 1;
+        posX = x;
+        posY = y;
+    }
     //Setters
-    public void setX(double x){this.x = x;}
-    public void setY(double y){this.y = y;}
+    public void setX(float x){posX = x;}
+    public void setY(float y){posY = y;}
     public void setcurHealth(int curHealth){this.curHealth = curHealth;}
     public void setmaxHealth(int maxHealth){this.maxHealth = maxHealth;}
     public void setMovement(double movement){this.movement = movement;}
 
 
     //Getters
-    public double getX(){return x;}
-    public double getY(){return y;}
-    public double getcurHealth(){return curHealth;}
-    public double getMovement(){return movement;}
+    public float getX(){return posX;}
+    public float getY(){return posY;}
+    public int getcurHealth(){return curHealth;}
 
 
     //Actions enemy/player can perform
