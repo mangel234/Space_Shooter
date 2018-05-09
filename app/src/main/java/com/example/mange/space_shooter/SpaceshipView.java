@@ -99,17 +99,21 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     public void checkCollision(){
         float xaddition = 0; //spacing between invaders
         float yaddition = 00; //spacing between rows
-        for (int i = 0; i < board.length; i++) {
-            if (i % 8 == 0)
-                xaddition = 0;
-            yaddition = i / 8 * 100;
-            if(ammo.getRect().intersect(board[i].getX()+xaddition,board[i].getY()+yaddition+100,
-                    board[i].getX()+100+xaddition, board[i].getY()+yaddition)) {
-                board[i] = null;
-                ammo.bullet_Not_On_Screen();
-                return;
+        int i = (int)((ammo.getRect().left - screenX/10)/100);
+        if(i < 8)
+            for (; i < board.length; i+=8) {
+                yaddition = i / 8 * 100;
+                if(board[i] != null && board[i].getY() + yaddition < ammo.getRect().top && board[i].getY() + yaddition + 100 >ammo.getRect().top) {
+                    board[i] = null;
+                    ammo.bullet_Not_On_Screen();
+                    return;
+                }
+                if(board[i] != null && board[i].getY() + yaddition < ammo.getRect().bottom && board[i].getY() + yaddition + 100 > ammo.getRect().bottom) {
+                    board[i] = null;
+                    ammo.bullet_Not_On_Screen();
+                    return;
+                }
             }
-        }
 
     }
     public void draw() {
