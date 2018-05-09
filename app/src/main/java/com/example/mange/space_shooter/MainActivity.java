@@ -28,7 +28,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 
 
     public static float xPos, xAccel, xVel = 0.0f;
-    public static float yPos, yAccel, yVel = 0.0f;
+    public static float yPos;
     public static  float xMax, yMax;
     private SensorManager sensorManager;
 
@@ -86,44 +86,35 @@ public class MainActivity extends Activity implements SensorEventListener{
     public final void onAccuracyChanged(Sensor sensor, int accuracy) {
         //No calibration Needed
     }
-
+    float prev;
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            xAccel = sensorEvent.values[0];
-            yAccel = -sensorEvent.values[1];
+            xAccel = sensorEvent.values[0];//Retrieves tilt of the phone
             updateShip();
         }
     }
 
     private void updateShip() {
         float frameTime = 0.666f;
-        xVel += (xAccel * frameTime);
-        yVel += (yAccel * frameTime);
+        if((xAccel > 0.1 && prev < -0.1) || (xAccel < -0.1 && prev > 0.1))//Resets velocity when tilt is changed
+            xVel = 0;
 
+        xVel += (xAccel * frameTime);//increases speed when tilted in same direction
         float xS = (xVel / 2) * frameTime;
-        float yS = (yVel / 2) * frameTime;
 
         xPos -= xS;
-        yPos -= yS;
 
-        if (xPos > xMax) {
+        if (xPos > xMax) {//should catch when we go off the side of the screen
             xPos = xMax;
         } else if (xPos < 0) {
             xPos = 0;
         }
-
-        if (yPos > yMax) {
-            yPos = yMax;
-        } else if (yPos < 0) {
-            yPos = 0;
-        }
+        prev = xAccel;
     }
     private void toast(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP, 0, 170);
         toast.show();
     }
-
-
 }

@@ -23,8 +23,8 @@ public class SpaceShip {
         height = screenY/10;
 
         // Start ship in roughly the screen centre
-        x = screenX / 2;
-        y = screenY - 20;
+        x = screenX / 2;//being overwritten somewhere
+        y = screenY/2;
 
         // Initialize the bitmap
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.playership);
