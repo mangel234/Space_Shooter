@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.Random;
+
 /**
  * Created by Miguel on 5/6/18.
  */
@@ -47,6 +49,9 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
     //Grab the players bullets
     Ammo ammo;
+    //Grabs enemy bullets
+    Ammo enemyAmmo[] = new Ammo[3];
+    Random rand = new Random();
     // This variable tracks the game frame rate
     private long fps;
 
@@ -72,7 +77,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
     private void startLevel() {
 
-        MainActivity.mySound.play(MainActivity.playershot,1,1,1,0,1);
+        MainActivity.mySound.play(MainActivity.playershot,1,1,1,1,1);
         // Make a new player space ship
         playerShip = new SpaceShip(context, screenX, screenY);
 
@@ -94,6 +99,10 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
             //Get the bullets ready
             ammo = new Ammo(screenY);
+            for(int i = 0; i < enemyAmmo.length; i++) {
+                enemyAmmo[i] = new Ammo(screenY);
+                enemyAmmo[i].going = 0;
+            }
 
         }
     }
@@ -116,6 +125,9 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                     return;
                 }
             }
+
+    }
+    public void checkPlayerCollisions(){
 
     }
     public void scoring(int location){
@@ -158,6 +170,12 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             if (ammo.checkStatus()) {
                 canvas.drawRect(ammo.getRect(), paint);
             }
+            for(int i = 0; i < enemyAmmo.length; i++)
+                if (enemyAmmo[i].checkStatus()) {
+                    canvas.drawRect(enemyAmmo[i].getRect(), paint);
+                }
+
+
 
 //-------------------Draw the text and Color -------------------------------------------------------
             // Draw the score and remaining lives
@@ -202,12 +220,25 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             ammo.update(fps);
             checkCollision();
         }
+        for(int i = 0; i < enemyAmmo.length; i++) {
+            if (enemyAmmo[i].checkStatus()) {
+                enemyAmmo[i].update(fps);
+                checkPlayerCollisions();
+            }
+            if (ammo.collision() > screenY) {
+                ammo.bullet_Not_On_Screen();
+            }
+        }
+        for(int i = 0; i < enemyAmmo.length; i++)
+            if(!enemyAmmo[i].checkStatus()){
 
-
-        // Has the player's bullet hit the top of the screen
+                enemyAmmo[i].shoot(screenX/10 + (rand.nextInt(8) * 100)+50, (screenY/10) + (i * 100), enemyAmmo[i].downward);
+            }
+            // Has the player's bullet hit the top of the screen
         if(ammo.collision() < 0){
             ammo.bullet_Not_On_Screen();
         }
+
         playerShip.update();
 
     }
