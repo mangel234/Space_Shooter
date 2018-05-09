@@ -96,6 +96,22 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         }
     }
 
+    public void checkCollision(){
+        float xaddition = 0; //spacing between invaders
+        float yaddition = 00; //spacing between rows
+        for (int i = 0; i < board.length; i++) {
+            if (i % 8 == 0)
+                xaddition = 0;
+            yaddition = i / 8 * 100;
+            if(ammo.getRect().intersect(board[i].getX()+xaddition,board[i].getY()+yaddition+100,
+                    board[i].getX()+100+xaddition, board[i].getY()+yaddition)) {
+                board[i] = null;
+                ammo.bullet_Not_On_Screen();
+                return;
+            }
+        }
+
+    }
     public void draw() {
 
         if (ourHolder.getSurface().isValid()) {
@@ -119,7 +135,8 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                 if (i % 8 == 0)
                     xaddition = 0;
                 yaddition = i / 8 * 100;
-                canvas.drawBitmap(board[i].getBitmap(), board[i].getX() + xaddition, board[i].getY() + yaddition, paint);
+                if(board[i] != null)
+                    canvas.drawBitmap(board[i].getBitmap(), board[i].getX() + xaddition, board[i].getY() + yaddition, paint);
                 xaddition += 100;
             }
 
@@ -165,11 +182,11 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     }
 
     private void update() {
-        playerShip.update();
 
         // Update the players bullet
         if (ammo.checkStatus()) {
             ammo.update(fps);
+            checkCollision();
         }
 
 
@@ -177,6 +194,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         if(ammo.collision() < 0){
             ammo.bullet_Not_On_Screen();
         }
+        playerShip.update();
 
     }
 
