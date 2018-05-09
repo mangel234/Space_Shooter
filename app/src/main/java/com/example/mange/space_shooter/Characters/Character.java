@@ -1,5 +1,6 @@
 package com.example.mange.space_shooter.Characters;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.SoundPool;
 
@@ -14,8 +15,38 @@ public abstract class Character {
     protected double movement;
     protected float posX;
     protected float posY;
+    // How long and high our paddle will be
+    private float length;
+    private float height;
+
+    // X is the far left of the rectangle which forms our paddle
+    private float x;
+
+    // Y is the top coordinate
+    private float y;
+    // The player ship will be represented by a Bitmap
+    Bitmap bitmap;
+
     protected SoundPool player;
-    Bitmap image;
+
+
+    public Character(Context context, int screenX, int screenY) {
+        length = screenX/10;
+        height = screenY/10;
+
+        // Start ship in roughly the screen centre
+        x = screenX / 2;//being overwritten somewhere
+        y = screenY/2;
+
+        // Initialize the bitmap
+
+
+        // stretch the bitmap to a size appropriate for the screen resolution
+        bitmap = Bitmap.createScaledBitmap(bitmap,
+                (int) (length),
+                (int) (height),
+                false);
+    }
 
     public Character(){
         curHealth = 1;
@@ -46,7 +77,7 @@ public abstract class Character {
     public float getX(){return posX;}
     public float getY(){return posY;}
     public int getcurHealth(){return curHealth;}
-    public Bitmap getBitmap(){return image;}
+    public Bitmap getBitmap(){return bitmap;}
 
     //Actions enemy/player can perform
     /**Method to fire projectiles and move down**/
@@ -55,5 +86,7 @@ public abstract class Character {
     public boolean draw(){return true;}
     /**Method for enemy passing away*/
     public void onDeath(){}
+
+
 
 }

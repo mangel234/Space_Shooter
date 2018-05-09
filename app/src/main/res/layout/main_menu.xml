@@ -13,28 +13,28 @@
         android:layout_width="177dp"
         android:layout_height="48dp"
         android:layout_marginBottom="25dp"
-        android:layout_marginEnd="103dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:onClick="beginNew"
         android:text="New Game"
         app:layout_constraintBottom_toTopOf="@+id/load_game"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.84" />
 
     <Button
         android:id="@+id/load_game"
         android:layout_width="177dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="292dp"
-        android:layout_marginEnd="103dp"
-        android:layout_marginStart="104dp"
+        android:layout_marginBottom="244dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:text="Load Game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

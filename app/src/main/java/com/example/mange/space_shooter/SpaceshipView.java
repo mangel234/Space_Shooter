@@ -1,14 +1,17 @@
 package com.example.mange.space_shooter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.example.mange.space_shooter.Characters.Blue;
+import com.example.mange.space_shooter.Characters.Character;
+import com.example.mange.space_shooter.Characters.Green;
+import com.example.mange.space_shooter.Characters.Pink;
 
 /**
  * Created by Miguel on 5/6/18.
@@ -41,6 +44,8 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
     // Lives
     private int lives = 3;
+    //Grab the invaders
+    Invaders[] board = new Invaders[3];
 
     public SpaceshipView(Context context, int x, int y) {
         super(context);
@@ -67,8 +72,24 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         // Make a new player space ship
         playerShip = new SpaceShip(context, screenX, screenY);
 
+        //Call the invader class to draw invaders
+        //Initialize the board of invaders
+        String type;
+        for (int row = 0; row < board.length; row++) {
+                if (row == 0) {
+                    type = "green";
+                    board[row] = new Invaders(context, screenX, screenY, type);
+                } else if (row == 1) {
+                    type = "blue";
+                    board[row] = new Invaders(context, screenX, screenY, type);
+                } else if (row == 2) {
+                    type = "pink";
+                    board[row] = new Invaders(context, screenX, screenY, type);
+                }
+            }
+            // invader_board = new Invaders(context,screenX,screenY);
 
-    }
+        }
 
     public void draw() {
 
@@ -85,6 +106,18 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             // Now draw the player spaceship
             //canvas.drawBitmap(playerShip.getBitmap(), playerShip.getX(), screenY - 50, paint);
             canvas.drawBitmap(playerShip.getBitmap(),MainActivity.xPos, MainActivity.yMax-100, SpaceshipView.paint);
+
+            float xaddition =0; //spacing between invaders
+            float yaddition=00; //spacing between rows
+            // Draw the invaders
+            for(int i = 0; i < board.length ; i++) {
+//                if(i % 5 == 0)
+//                    xaddition = 0;
+//                yaddition = i/4 * 100;
+               canvas.drawBitmap(board[i].getBitmap(), board[i].getX() + xaddition, board[i].getY() + yaddition, paint);
+                xaddition += 100;
+            }
+
 
 
             // Draw the score and remaining lives
@@ -114,6 +147,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
         private void update(){
             playerShip.update();
+
         }
 // If SpaceInvadersActivity is paused/stopped
     // shutdown our thread.
