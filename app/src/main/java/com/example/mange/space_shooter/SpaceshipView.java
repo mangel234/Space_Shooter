@@ -216,7 +216,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
                 if(motionEvent.getY() < screenY - screenY / 8) {
                     // Shots fired
-                    if (ammo.shoot(playerShip.x + playerShip.y / 2, screenY, ammo.upward)) {
+                    if (ammo.shoot(MainActivity.xPos+50, screenY, ammo.upward)) {
 
                     }
                 }
