@@ -45,7 +45,10 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     // Lives
     private int lives = 3;
     //Grab the invaders
-    Invaders[] board = new Invaders[3];
+    Invaders[] board = new Invaders[24];
+
+    //Grab the players bullets
+    Ammo ammo;
 
     public SpaceshipView(Context context, int x, int y) {
         super(context);
@@ -76,20 +79,23 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         //Initialize the board of invaders
         String type;
         for (int row = 0; row < board.length; row++) {
-                if (row == 0) {
-                    type = "green";
-                    board[row] = new Invaders(context, screenX, screenY, type);
-                } else if (row == 1) {
-                    type = "blue";
-                    board[row] = new Invaders(context, screenX, screenY, type);
-                } else if (row == 2) {
-                    type = "pink";
-                    board[row] = new Invaders(context, screenX, screenY, type);
-                }
+            if (row / 8 == 0) {
+                type = "green";
+                board[row] = new Invaders(context, screenX, screenY, type);
+            } else if (row / 8 == 1) {
+                type = "blue";
+                board[row] = new Invaders(context, screenX, screenY, type);
+            } else if (row / 8 == 2) {
+                type = "pink";
+                board[row] = new Invaders(context, screenX, screenY, type);
             }
             // invader_board = new Invaders(context,screenX,screenY);
 
+            //Get the bullets ready
+            ammo = new Ammo(screenY);
+
         }
+    }
 
     public void draw() {
 
@@ -109,17 +115,17 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
             float xaddition =0; //spacing between invaders
             float yaddition=00; //spacing between rows
-            // Draw the invaders
+            // ------------------------------- Draw the invaders and location------------------------------------------------------
             for(int i = 0; i < board.length ; i++) {
-//                if(i % 5 == 0)
-//                    xaddition = 0;
-//                yaddition = i/4 * 100;
+                if(i % 8 == 0)
+                    xaddition = 0;
+                yaddition = i/ 8* 100;
                canvas.drawBitmap(board[i].getBitmap(), board[i].getX() + xaddition, board[i].getY() + yaddition, paint);
                 xaddition += 100;
             }
 
 
-
+//-------------------Draw the text and Color -------------------------------------------------------
             // Draw the score and remaining lives
             // Change the brush color
             paint.setColor(Color.argb(255,  249, 129, 155));

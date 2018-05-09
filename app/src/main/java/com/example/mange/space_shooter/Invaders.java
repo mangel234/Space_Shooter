@@ -27,8 +27,8 @@ public class Invaders {
         height = screenY/10;
 
         // Start ship in roughly the screen centre
-        x = screenX / 2;//being overwritten somewhere
-        y = screenY/2;
+        x = (screenX/10);//being overwritten somewhere
+        y = (screenY/10);
 
         if(type.equals("blue")){
             // Initialize the bitmap
