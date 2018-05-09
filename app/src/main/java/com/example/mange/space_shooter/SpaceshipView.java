@@ -71,6 +71,8 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     }
 
     private void startLevel() {
+
+        MainActivity.mySound.play(MainActivity.playershot,1,1,1,0,1);
         // Make a new player space ship
         playerShip = new SpaceShip(context, screenX, screenY);
 
@@ -247,7 +249,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                 if(motionEvent.getY() < screenY - screenY / 8) {
                     // Shots fired
                     if (ammo.shoot(MainActivity.xPos+50, screenY, ammo.upward)) {
-
+                         MainActivity.mySound.play(MainActivity.playershot,1,1,1,0,1);
                     }
                 }
 

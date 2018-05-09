@@ -8,6 +8,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
@@ -29,11 +31,18 @@ public class MainActivity extends Activity implements SensorEventListener{
     public static float yPos;
     public static  float xMax, yMax;
     private SensorManager sensorManager;
+    public static SoundPool mySound;
+    public static int  playershot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        //Inittialize sound
+        mySound = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+       //Player shot
+       playershot= mySound.load(this,R.raw.shooting,1);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
