@@ -4,11 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.mange.space_shooter.Characters.Blue;
-import com.example.mange.space_shooter.Characters.Character;
-import com.example.mange.space_shooter.Characters.Green;
-import com.example.mange.space_shooter.Characters.Pink;
-
 public class Invaders {
     // The player ship will be represented by a Bitmap
     private Bitmap bitmap;
@@ -21,6 +16,8 @@ public class Invaders {
 
     // Y is the top coordinate
     private float y;
+    int health = 0;
+
 
     public Invaders(Context context, int screenX, int screenY, String type) {
         length = screenX/10;
@@ -33,14 +30,17 @@ public class Invaders {
         if(type.equals("blue")){
             // Initialize the bitmap
             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.blue);
+            health = 2;
         }
         if(type.equals("green")){
             // Initialize the bitmap
             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.green);
+            health = 3;
         }
         if(type.equals("pink")){
             // Initialize the bitmap
             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.pink);
+            health = 1;
         }
 
 

@@ -94,7 +94,7 @@ public class MainActivity extends Activity implements SensorEventListener{
     }
 
     private void updateShip() {
-        float frameTime = 0.555f;
+        float frameTime = 0.4779f;
         if((xAccel > 0.1 && prev < -0.1) || (xAccel < -0.1 && prev > 0.1))//Resets velocity when tilt is changed
             xVel = 0;
         xVel += (xAccel * frameTime);//increases speed when tilted in same direction
