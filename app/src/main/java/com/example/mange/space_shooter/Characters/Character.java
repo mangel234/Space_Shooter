@@ -1,5 +1,6 @@
 package com.example.mange.space_shooter.Characters;
 
+import android.graphics.Bitmap;
 import android.media.SoundPool;
 
 /**
@@ -14,6 +15,7 @@ public abstract class Character {
     protected float posX;
     protected float posY;
     protected SoundPool player;
+    Bitmap image;
 
     public Character(){
         curHealth = 1;
@@ -44,7 +46,7 @@ public abstract class Character {
     public float getX(){return posX;}
     public float getY(){return posY;}
     public int getcurHealth(){return curHealth;}
-
+    public Bitmap getBitmap(){return image;}
 
     //Actions enemy/player can perform
     /**Method to fire projectiles and move down**/

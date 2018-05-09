@@ -20,14 +20,21 @@ public class BoardConfiguration {
        // board[9][4] = new Player();
     }
     public BoardConfiguration(int level) {//Default configuration for levels
-        for (int row = 0; row < board.length; row++)
-            for (int col = 0; col < board.length; col++)
-                if (row == 0 && col > 0 && col < 1)
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++){
+                if (row == 0)
                     board[row][col] = new Green(level);
-                else if (row == 1 && col < 2)
+                else if (row == 1)
                     board[row][col] = new Blue(level);
-                else if (row == 2 && col > 0 && col < 1)
+                else if (row == 2)
                     board[row][col] = new Pink(level);
-        //board[9][4] = new Player();
+            }}
+    }
+    public boolean isEmpty(){
+        for (int row = 0; row < board.length; row++)    //Checks if board is empty
+            for (int col = 0; col < board[0].length; col++)
+               if(board[row][col] != null)
+                   return false;
+        return true;
     }
 }
