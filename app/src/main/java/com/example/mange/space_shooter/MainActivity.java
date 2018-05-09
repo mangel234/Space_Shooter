@@ -99,7 +99,6 @@ public class MainActivity extends Activity implements SensorEventListener{
         float frameTime = 0.666f;
         if((xAccel > 0.1 && prev < -0.1) || (xAccel < -0.1 && prev > 0.1))//Resets velocity when tilt is changed
             xVel = 0;
-
         xVel += (xAccel * frameTime);//increases speed when tilted in same direction
         float xS = (xVel / 2) * frameTime;
 
