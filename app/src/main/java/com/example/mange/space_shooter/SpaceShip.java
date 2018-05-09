@@ -13,10 +13,10 @@ public class SpaceShip {
     private float height;
 
     // X is the far left of the rectangle which forms our paddle
-    private float x;
+    public float x;
 
     // Y is the top coordinate
-    private float y;
+    public float y;
 
     public SpaceShip(Context context, int screenX, int screenY) {
         length = screenX/10;

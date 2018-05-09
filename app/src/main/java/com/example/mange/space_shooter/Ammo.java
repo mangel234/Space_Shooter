@@ -66,9 +66,9 @@ public class Ammo {
 
         // Just move up or down
         if(going == upward){
-            y =  (y - speed / fps);
+            y =  (y - speed*4 / fps);
         }else{
-            y =  (y + speed / fps);
+            y =  (y + speed*4 / fps);
         }
 
         // Update rect

@@ -5,13 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.example.mange.space_shooter.Characters.Blue;
-import com.example.mange.space_shooter.Characters.Character;
-import com.example.mange.space_shooter.Characters.Green;
-import com.example.mange.space_shooter.Characters.Pink;
 
 /**
  * Created by Miguel on 5/6/18.
@@ -46,14 +42,18 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     private int lives = 3;
     //Grab the invaders
     Invaders[] board = new Invaders[24];
+    // This is used to help calculate the fps
+    private long frameTime;
 
     //Grab the players bullets
     Ammo ammo;
+    // This variable tracks the game frame rate
+    private long fps;
 
     public SpaceshipView(Context context, int x, int y) {
         super(context);
 
-       // Bitmap ballSrc = BitmapFactory.decodeResource(getResources(), R.drawable.playership);
+        // Bitmap ballSrc = BitmapFactory.decodeResource(getResources(), R.drawable.playership);
         //Global context to be made
         this.context = context;
 
@@ -66,7 +66,6 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         screenY = y;
         //Start Game
         startLevel();
-
 
 
     }
@@ -107,55 +106,81 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             canvas.drawColor(Color.argb(255, 47, 59, 92));
 
             // Choose the brush color for drawing
-            paint.setColor(Color.argb(255,  255, 255, 255));
+            paint.setColor(Color.argb(255, 255, 255, 255));
 
             // Now draw the player spaceship
             //canvas.drawBitmap(playerShip.getBitmap(), playerShip.getX(), screenY - 50, paint);
-            canvas.drawBitmap(playerShip.getBitmap(),MainActivity.xPos, MainActivity.yMax-100, SpaceshipView.paint);
+            canvas.drawBitmap(playerShip.getBitmap(), MainActivity.xPos, MainActivity.yMax - 100, SpaceshipView.paint);
 
-            float xaddition =0; //spacing between invaders
-            float yaddition=00; //spacing between rows
+            float xaddition = 0; //spacing between invaders
+            float yaddition = 00; //spacing between rows
             // ------------------------------- Draw the invaders and location------------------------------------------------------
-            for(int i = 0; i < board.length ; i++) {
-                if(i % 8 == 0)
+            for (int i = 0; i < board.length; i++) {
+                if (i % 8 == 0)
                     xaddition = 0;
-                yaddition = i/ 8* 100;
-               canvas.drawBitmap(board[i].getBitmap(), board[i].getX() + xaddition, board[i].getY() + yaddition, paint);
+                yaddition = i / 8 * 100;
+                canvas.drawBitmap(board[i].getBitmap(), board[i].getX() + xaddition, board[i].getY() + yaddition, paint);
                 xaddition += 100;
             }
 
+            // Draw the players bullet
+            if (ammo.checkStatus()) {
+                canvas.drawRect(ammo.getRect(), paint);
+            }
 
 //-------------------Draw the text and Color -------------------------------------------------------
             // Draw the score and remaining lives
             // Change the brush color
-            paint.setColor(Color.argb(255,  249, 129, 155));
+            paint.setColor(Color.argb(255, 249, 129, 155));
             paint.setTextSize(40);
-            canvas.drawText("Score: " + score + "   Lives: " + lives, 10,50, paint);
+            canvas.drawText("Score: " + score + "   Lives: " + lives, 10, 50, paint);
 
             // Draw everything to the screen
             ourHolder.unlockCanvasAndPost(canvas);
         }
     }
 
-        @Override
-        public void run(){
-            while (playing) {
-                // Capture the current time in milliseconds in startFrameTime
+    @Override
+    public void run() {
+        while (playing) {
+            // Capture the current time in milliseconds in startFrameTime
 
-                if(!paused){
-                    update();
-                }
-                // Draw the frame
-                draw();
+            // Capture the current time in milliseconds in startFrameTime
+            long startFrameTime = System.currentTimeMillis();
 
+            if (!paused) {
+                update();
+            }
+            // Draw the frame
+            draw();
+
+            // Calculate the fps this frame
+            // We can then use the result to
+            // time animations and more.
+            frameTime = System.currentTimeMillis() - startFrameTime;
+            if (frameTime >= 1) {
+                fps = 1000 / frameTime;
             }
         }
+    }
 
-        private void update(){
-            playerShip.update();
+    private void update() {
+        playerShip.update();
 
+        // Update the players bullet
+        if (ammo.checkStatus()) {
+            ammo.update(fps);
         }
-// If SpaceInvadersActivity is paused/stopped
+
+
+        // Has the player's bullet hit the top of the screen
+        if(ammo.collision() < 0){
+            ammo.bullet_Not_On_Screen();
+        }
+
+    }
+
+    // If SpaceInvadersActivity is paused/stopped
     // shutdown our thread.
     public void pause() {
         playing = false;
@@ -175,4 +200,30 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         gameThread.start();
     }
 
+
+
+    // The SurfaceView class implements onTouchListener
+    // So we can override this method and detect screen touches.
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+
+            // Player has touched the screen
+            case MotionEvent.ACTION_DOWN:
+
+                paused = false;
+
+                if(motionEvent.getY() < screenY - screenY / 8) {
+                    // Shots fired
+                    if (ammo.shoot(playerShip.x + playerShip.y / 2, screenY, ammo.upward)) {
+
+                    }
+                }
+
+                break;
+
+        }
+        return true;
     }
+}

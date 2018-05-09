@@ -109,7 +109,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         }
         prev = xAccel;
     }
-    private void toast(String msg) {
+    public void toast(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP, 0, 170);
         toast.show();
