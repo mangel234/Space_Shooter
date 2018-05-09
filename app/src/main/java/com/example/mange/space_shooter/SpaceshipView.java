@@ -103,22 +103,26 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         if(i < 8)
             for (; i < board.length; i+=8) {
                 yaddition = i / 8 * 100;
-                if(board[i] != null && board[i].getY() + yaddition < ammo.getRect().top && board[i].getY() + yaddition + 100 > ammo.getRect().top) {
+                if((board[i] != null && board[i].getY() + yaddition < ammo.getRect().top && board[i].getY() + yaddition + 100 > ammo.getRect().top )
+                        || (board[i] != null && board[i].getY() + yaddition < ammo.getRect().bottom && board[i].getY() + yaddition + 100 > ammo.getRect().bottom) ){
                     board[i].health -=1;
-                    ammo.bullet_Not_On_Screen();
-                    if(board[i] .health== 0)
+                    if(board[i] .health== 0) {
+                        scoring((int)yaddition);
                         board[i] = null;
-                    return;
-                }
-                if(board[i] != null && board[i].getY() + yaddition < ammo.getRect().bottom && board[i].getY() + yaddition + 100 > ammo.getRect().bottom) {
-                    board[i].health -=1;
-                    if(board[i] .health== 0)
-                        board[i] = null;
+                    }
                     ammo.bullet_Not_On_Screen();
                     return;
                 }
             }
 
+    }
+    public void scoring(int location){
+        if(location== 0)
+            score += 500;
+        else if(location== 100)
+            score +=250;
+        else
+            score+=100;
     }
     public void draw() {
 
