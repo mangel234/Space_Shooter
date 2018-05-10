@@ -220,10 +220,11 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     }
     public void win(){
         for(int i = 0; i < board.length; i++){
-            if(board != null)
+            if(board [i]!= null)
                 return;
         }
-        playing = false;
+        startLevel();
+        wave = Integer.toString(Integer.parseInt(wave)+1);
     }
     @Override
     public void run() {
@@ -250,10 +251,6 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                 fps = 1000 / frameTime;
             }
             win();
-        }
-        if(!playing) {
-            wave += Integer.toString(Integer.parseInt(wave) + 1);
-            startLevel();
         }
     }
 
@@ -297,13 +294,18 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         }
 
     }
-
+    public void pauseMusic(){
+        soundPool.autoPause();
+    }
     // If SpaceInvadersActivity is started then
     // start our thread.
     public void resume() {
         playing = true;
         gameThread = new Thread(this);
         gameThread.start();
+    }
+    public void continueMusic(){
+        soundPool.autoResume();
     }
 
 

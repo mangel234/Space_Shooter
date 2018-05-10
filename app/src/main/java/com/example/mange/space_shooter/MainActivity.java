@@ -70,7 +70,7 @@ public class MainActivity extends Activity implements SensorEventListener{
     @Override
     protected void onResume() {
         super.onResume();
-
+        spaceshipView.continueMusic();
         // Tell the gameView resume method to execute
         spaceshipView.resume();
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
@@ -81,7 +81,7 @@ public class MainActivity extends Activity implements SensorEventListener{
     @Override
     protected void onPause() {
         super.onPause();
-
+        spaceshipView.pauseMusic();
         // Tell the gameView pause method to execute
        spaceshipView.pause();
         sensorManager.unregisterListener(this);
