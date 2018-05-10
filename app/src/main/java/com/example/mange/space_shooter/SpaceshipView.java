@@ -41,13 +41,13 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     private Thread gameThread = null;
     private int tokyo = -1;
     private boolean soundPlay = false;
-
+    private int oh = -1;
 
     // The players ship
     private SpaceShip playerShip;
 
     // The score
-    public static int score = 0;
+    public  int score = 0;
 
     // Lives
     private int lives = 3;
@@ -96,7 +96,8 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             descriptor = assetManager.openFd("tokyo.ogg");
             tokyo = soundPool.load(descriptor, 0);
 
-
+            descriptor = assetManager.openFd("oh.ogg");
+            oh = soundPool.load(descriptor, 0);
 
         }catch(IOException e){
             // Print an error message to the console
@@ -161,7 +162,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
            // Intent i = new Intent(MainActivity.getApplicationsContext(), Loser_Screen.class);
            // i.putExtra("Score", SpaceshipView.score);
             Intent intent = new Intent().setClass(getContext(), Loser_Screen.class);
-            intent.putExtra("Score", SpaceshipView.score);
+            intent.putExtra("Score", score);
             ((Activity) getContext()).startActivity(intent);
         }
 
@@ -169,7 +170,11 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             if(enemyAmmo[i].checkStatus() && (enemyAmmo[i].getRect().top <= MainActivity.yMax && enemyAmmo[i].getRect().top >= MainActivity.yMax -100) &&
                     ( enemyAmmo[i] .getRect().left >= MainActivity.xPos && enemyAmmo[i].getRect().left <= MainActivity.xPos + 100)) {
                 enemyAmmo[i].bullet_Not_On_Screen();
+                soundPool.pause(tokyo);
+                soundPool.play(oh, 3, 3, 0, 0, 1);
+                soundPool.resume(tokyo);
                 lives -= 1;
+
             }
         }
     }

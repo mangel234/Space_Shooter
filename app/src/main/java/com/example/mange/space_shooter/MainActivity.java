@@ -55,11 +55,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(spaceshipView);
 
     }
-    public void passActivity() {
-        Intent i = new Intent(MainActivity.this, Loser_Screen.class);
-        i.putExtra("Score", SpaceshipView.score);
 
-    }
 
     @Override
     protected void onStart() {
