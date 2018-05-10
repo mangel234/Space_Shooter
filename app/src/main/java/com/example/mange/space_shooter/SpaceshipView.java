@@ -59,6 +59,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     private int shooting_Sound = -1;
     Ammo enemyAmmo[] = new Ammo[3];
     Random rand = new Random();
+    String wave = "1";
     // This variable tracks the game frame rate
     private long fps;
 
@@ -211,13 +212,19 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             // Change the brush color
             paint.setColor(Color.argb(255, 249, 129, 155));
             paint.setTextSize(40);
-            canvas.drawText("Score: " + score + "   Lives: " + lives, 10, 50, paint);
+            canvas.drawText("Score: " + score + "   Lives: " + lives + " Wave: " + wave, 10, 50, paint);
 
             // Draw everything to the screen
             ourHolder.unlockCanvasAndPost(canvas);
         }
     }
-
+    public void win(){
+        for(int i = 0; i < board.length; i++){
+            if(board != null)
+                return;
+        }
+        playing = false;
+    }
     @Override
     public void run() {
         while (playing) {
@@ -242,6 +249,11 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             if (frameTime >= 1) {
                 fps = 1000 / frameTime;
             }
+            win();
+        }
+        if(!playing) {
+            wave += Integer.toString(Integer.parseInt(wave) + 1);
+            startLevel();
         }
     }
 
@@ -311,9 +323,10 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                 if(motionEvent.getY() < screenY - screenY / 8) {
                     // Shots fired
                     if (ammo.shoot(MainActivity.xPos+50, screenY, ammo.upward)) {
-                        soundPool.autoPause();
+                        soundPool.pause(tokyo);
                         soundPool.play(shooting_Sound, 1, 1, 0, 0, 1);
-                        soundPlay = false;                    }
+                        soundPool.resume(tokyo);
+                    }
                 }
 
                 break;
