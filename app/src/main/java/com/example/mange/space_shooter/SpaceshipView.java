@@ -40,7 +40,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
     // The players ship
     private SpaceShip playerShip;
-
+    private boolean soundplay = false;
     // The score
     private int score = 0;
 
@@ -54,6 +54,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     //Grab the players bullets
     Ammo ammo;
     private int shooting_Sound = -1;
+    private int tokyo = -1;
     // This variable tracks the game frame rate
     private long fps;
 
@@ -85,8 +86,8 @@ public class SpaceshipView extends SurfaceView implements Runnable {
            shooting_Sound = soundPool.load(descriptor, 0);
 
             // Load our fx in memory ready for use
-            descriptor = assetManager.openFd("shoot.ogg");
-            shooting_Sound = soundPool.load(descriptor, 0);
+            descriptor = assetManager.openFd("tokyo.ogg");
+           tokyo = soundPool.load(descriptor, 0);
 
 
 
@@ -100,7 +101,6 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     }
 
     private void startLevel() {
-
 
         // Make a new player space ship
         playerShip = new SpaceShip(context, screenX, screenY);
@@ -205,7 +205,12 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         while (playing) {
             // Capture the current time in milliseconds in startFrameTime
 
+            if(!soundplay) {
+                soundPool.play(tokyo, 1, 1, -1, -1, 1);
+                soundplay = true;
+            }
             // Capture the current time in milliseconds in startFrameTime
+
             long startFrameTime = System.currentTimeMillis();
 
             if (!paused) {
@@ -225,7 +230,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     }
 
     private void update() {
-
+        //soundPool.play(tokyo, 1, 1, -1, -1, 1);
         // Update the players bullet
         if (ammo.checkStatus()) {
             ammo.update(fps);
@@ -278,7 +283,9 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                 if(motionEvent.getY() < screenY - screenY / 8) {
                     // Shots fired
                     if (ammo.shoot(MainActivity.xPos+50, screenY, ammo.upward)) {
-                        soundPool.play(shooting_Sound, 1, 1, 0, 0, 1);
+                       soundPool.autoPause();
+                       soundPool.play(shooting_Sound, 1, 1, 0, 0, 1);
+                       soundplay = false;
                     }
                 }
 
