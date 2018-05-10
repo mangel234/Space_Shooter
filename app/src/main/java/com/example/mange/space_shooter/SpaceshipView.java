@@ -37,6 +37,9 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     private volatile boolean playing;
     // This is our thread
     private Thread gameThread = null;
+    private int tokyo = -1;
+    private boolean soundPlay = false;
+
 
     // The players ship
     private SpaceShip playerShip;
@@ -88,7 +91,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
 
             // Load our fx in memory ready for use
             descriptor = assetManager.openFd("tokyo.ogg");
-            shooting_Sound = soundPool.load(descriptor, 0);
+            tokyo = soundPool.load(descriptor, 0);
 
 
 
@@ -219,7 +222,10 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     public void run() {
         while (playing) {
             // Capture the current time in milliseconds in startFrameTime
-
+            if(!soundPlay){
+                soundPool.play(tokyo, 1, 1, 0, -1, 1);
+                soundPlay =true;
+            }
             // Capture the current time in milliseconds in startFrameTime
             long startFrameTime = System.currentTimeMillis();
 
@@ -305,8 +311,9 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                 if(motionEvent.getY() < screenY - screenY / 8) {
                     // Shots fired
                     if (ammo.shoot(MainActivity.xPos+50, screenY, ammo.upward)) {
+                        soundPool.autoPause();
                         soundPool.play(shooting_Sound, 1, 1, 0, 0, 1);
-                    }
+                        soundPlay = false;                    }
                 }
 
                 break;
