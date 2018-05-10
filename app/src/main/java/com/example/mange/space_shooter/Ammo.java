@@ -11,11 +11,11 @@ public class Ammo {
     private  float x;
     private float y;
     // where we shooting
-    public int upward = 0;
+    int upward = 0;
     public int downward = 1;
     // Going nowhere
-    int going = -1;
-    float speed =  350;
+    private int going = -1;
+    private float speed =  350;
 
     public Ammo(int screenY){
         rect = new RectF();
