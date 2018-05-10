@@ -54,6 +54,8 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     //Grab the players bullets
     Ammo ammo;
     private int shooting_Sound = -1;
+    private int tokyo = -1;
+    private boolean soundPlay = false;
     // This variable tracks the game frame rate
     private long fps;
 
@@ -85,8 +87,8 @@ public class SpaceshipView extends SurfaceView implements Runnable {
            shooting_Sound = soundPool.load(descriptor, 0);
 
             // Load our fx in memory ready for use
-            descriptor = assetManager.openFd("shoot.ogg");
-            shooting_Sound = soundPool.load(descriptor, 0);
+            descriptor = assetManager.openFd("tokyo.ogg");
+            tokyo = soundPool.load(descriptor, 0);
 
 
 
@@ -204,7 +206,10 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     public void run() {
         while (playing) {
             // Capture the current time in milliseconds in startFrameTime
-
+            if(!soundPlay){
+                soundPool.play(tokyo, 1, 1, 0, -1, 1);
+                soundPlay =true;
+            }
             // Capture the current time in milliseconds in startFrameTime
             long startFrameTime = System.currentTimeMillis();
 
@@ -278,7 +283,9 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                 if(motionEvent.getY() < screenY - screenY / 8) {
                     // Shots fired
                     if (ammo.shoot(MainActivity.xPos+50, screenY, ammo.upward)) {
+                        soundPool.autoPause();
                         soundPool.play(shooting_Sound, 1, 1, 0, 0, 1);
+                        soundPlay = false;
                     }
                 }
 
