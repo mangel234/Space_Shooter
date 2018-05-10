@@ -35,6 +35,10 @@ public class Ammo {
     }
 
     public void bullet_Not_On_Screen(){
+        rect.left = 1;
+        rect.right = 1;
+        rect.top = -100;
+        rect.bottom = -200;
         onScreen = false;
     }
 

@@ -142,8 +142,8 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         if(i < 8)
             for (; i < board.length; i+=8) {
                 yaddition = i / 8 * 100;
-                if((board[i] != null && board[i].getY() + yaddition < ammo.getRect().top && board[i].getY() + yaddition + 100 > ammo.getRect().top )
-                        || (board[i] != null && board[i].getY() + yaddition < ammo.getRect().bottom && board[i].getY() + yaddition + 100 > ammo.getRect().bottom) ){
+                if((board[i] != null && board[i].getY() + yaddition <= ammo.getRect().top && board[i].getY() + yaddition + 100 >= ammo.getRect().top )
+                        || (board[i] != null && board[i].getY() + yaddition <= ammo.getRect().bottom && board[i].getY() + yaddition + 100 >= ammo.getRect().bottom) ){
                     board[i].health -=1;
                     if(board[i] .health== 0) {
                         scoring((int)yaddition);
@@ -156,8 +156,9 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     }
     public void playerCollision(){
         for(int i = 0; i < 3; i++){
-            if(enemyAmmo[i] != null && ((MainActivity.yPos-100 < enemyAmmo[i].getRect().top && MainActivity.yPos > enemyAmmo[i].getRect().top )
-                     ||  (MainActivity.yPos-100< enemyAmmo[i].getRect().bottom &&MainActivity.yPos> enemyAmmo[i].getRect().bottom))) {
+            if(enemyAmmo[i].checkStatus() && (enemyAmmo[i].getRect().top <= MainActivity.yMax && enemyAmmo[i].getRect().top >= MainActivity.yMax -100) &&
+                    ( enemyAmmo[i] .getRect().left >= MainActivity.xPos && enemyAmmo[i].getRect().left <= MainActivity.xPos + 100)) {
+                enemyAmmo[i].bullet_Not_On_Screen();
                 lives -= 1;
             }
         }
