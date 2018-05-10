@@ -208,11 +208,13 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                     canvas.drawBitmap(board[i].getBitmap(), board[i].getX() + xaddition, board[i].getY() + yaddition, paint);
                 xaddition += 100;
             }
-
             // Draw the players bullet
+            paint.setColor(Color.argb(255, 255, 255, 255));
             if (ammo.checkStatus()) {
                 canvas.drawRect(ammo.getRect(), paint);
             }
+            paint.setColor(Color.rgb(255,0,0));
+
             for(int i = 0; i < enemyAmmo.length; i++)
                 if (enemyAmmo[i].checkStatus()) {
                     canvas.drawRect(enemyAmmo[i].getRect(), paint);
@@ -264,7 +266,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             win();
         }
     }
-
+    int randIndex;
     private void update() {
 
         // Update the players bullet
@@ -282,7 +284,9 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         }
         for(int i = 0; i < enemyAmmo.length; i++)
             if(!enemyAmmo[i].checkStatus()){
-            enemyAmmo[i].shoot(screenX/10 + (rand.nextInt(8) * 100)+50, (screenY/10) + (i * 100), enemyAmmo[i].downward);
+                randIndex = rand.nextInt(8);
+                if(board[randIndex + (8*i)] != null)
+                    enemyAmmo[i].shoot(screenX/10 + (randIndex * 100)+50, (screenY/10) + (i * 100), enemyAmmo[i].downward);
              }
         playerCollision();
         // Has the player's bullet hit the top of the screen
