@@ -87,7 +87,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
            shooting_Sound = soundPool.load(descriptor, 0);
 
             // Load our fx in memory ready for use
-            descriptor = assetManager.openFd("shoot.ogg");
+            descriptor = assetManager.openFd("tokyo.ogg");
             shooting_Sound = soundPool.load(descriptor, 0);
 
 
@@ -149,7 +149,14 @@ public class SpaceshipView extends SurfaceView implements Runnable {
                     return;
                 }
             }
-
+    }
+    public void playerCollision(){
+        for(int i = 0; i < 3; i++){
+            if(enemyAmmo[i] != null && ((MainActivity.yPos-100 < enemyAmmo[i].getRect().top && MainActivity.yPos > enemyAmmo[i].getRect().top )
+                     ||  (MainActivity.yPos-100< enemyAmmo[i].getRect().bottom &&MainActivity.yPos> enemyAmmo[i].getRect().bottom))) {
+                lives -= 1;
+            }
+        }
     }
     public void scoring(int location){
         if(location== 0)
@@ -242,20 +249,21 @@ public class SpaceshipView extends SurfaceView implements Runnable {
         for (int i = 0; i < enemyAmmo.length; i++) {
             if (enemyAmmo[i].checkStatus()) {
                 enemyAmmo[i].update(fps);
-                //checkPlayerCollisions();
             }
-            if (ammo.collision() > screenY) {
-                ammo.bullet_Not_On_Screen();
+            if (enemyAmmo[i].collision() > screenY) {
+                enemyAmmo[i].bullet_Not_On_Screen();
             }
         }
         for(int i = 0; i < enemyAmmo.length; i++)
             if(!enemyAmmo[i].checkStatus()){
             enemyAmmo[i].shoot(screenX/10 + (rand.nextInt(8) * 100)+50, (screenY/10) + (i * 100), enemyAmmo[i].downward);
              }
+        playerCollision();
         // Has the player's bullet hit the top of the screen
         if(ammo.collision() < 0){
             ammo.bullet_Not_On_Screen();
         }
+
         playerShip.update();
 
     }
