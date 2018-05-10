@@ -1,6 +1,8 @@
 package com.example.mange.space_shooter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
@@ -45,7 +47,7 @@ public class SpaceshipView extends SurfaceView implements Runnable {
     private SpaceShip playerShip;
 
     // The score
-    private int score = 0;
+    public static int score = 0;
 
     // Lives
     private int lives = 3;
@@ -155,6 +157,14 @@ public class SpaceshipView extends SurfaceView implements Runnable {
             }
     }
     public void playerCollision(){
+        if(lives == 0) {
+           // Intent i = new Intent(MainActivity.getApplicationsContext(), Loser_Screen.class);
+           // i.putExtra("Score", SpaceshipView.score);
+            Intent intent = new Intent().setClass(getContext(), Loser_Screen.class);
+            intent.putExtra("Score", SpaceshipView.score);
+            ((Activity) getContext()).startActivity(intent);
+        }
+
         for(int i = 0; i < 3; i++){
             if(enemyAmmo[i].checkStatus() && (enemyAmmo[i].getRect().top <= MainActivity.yMax && enemyAmmo[i].getRect().top >= MainActivity.yMax -100) &&
                     ( enemyAmmo[i] .getRect().left >= MainActivity.xPos && enemyAmmo[i].getRect().left <= MainActivity.xPos + 100)) {

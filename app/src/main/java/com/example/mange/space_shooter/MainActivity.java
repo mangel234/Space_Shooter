@@ -2,6 +2,7 @@ package com.example.mange.space_shooter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.hardware.Sensor;
@@ -11,11 +12,12 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Gravity;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements SensorEventListener{
+public class MainActivity extends AppCompatActivity implements SensorEventListener{
     private SensorManager senseManagement; //= (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     private Sensor sense;// = senseManagement.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     private int playerState;
@@ -51,6 +53,11 @@ public class MainActivity extends Activity implements SensorEventListener{
         //Initialize gameView
         spaceshipView = new SpaceshipView(this, size.x,size.y);
         setContentView(spaceshipView);
+
+    }
+    public void passActivity() {
+        Intent i = new Intent(MainActivity.this, Loser_Screen.class);
+        i.putExtra("Score", SpaceshipView.score);
 
     }
 

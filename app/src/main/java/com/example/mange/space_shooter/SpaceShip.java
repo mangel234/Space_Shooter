@@ -3,6 +3,7 @@ package com.example.mange.space_shooter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.RectF;
 
 public class SpaceShip {
 
@@ -14,11 +15,13 @@ public class SpaceShip {
 
     // X is the far left of the rectangle which forms our paddle
     public float x;
-
+    private RectF rect;
     // Y is the top coordinate
     public float y;
 
     public SpaceShip(Context context, int screenX, int screenY) {
+        // Initialize a blank RectF
+        rect = new RectF();
         length = screenX/10;
         height = screenY/10;
 
@@ -35,13 +38,15 @@ public class SpaceShip {
                 (int) (height),
                 false);
     }
-
+    public RectF getRect(){
+        return rect;
+    }
     public Bitmap getBitmap() {
         return bitmap;
     }
 
     public void update(){
-        SpaceshipView.canvas.drawBitmap(getBitmap(),MainActivity.xPos, MainActivity.yPos - 60, SpaceshipView.paint);
+        SpaceshipView.canvas.drawBitmap(getBitmap(),MainActivity.xPos, MainActivity.yPos+SpaceshipView.screenY, SpaceshipView.paint);
         // SpaceInvadersView.canvas.drawBitmap(getBitmap(), getX(), SpaceInvadersView.screenY - 50, SpaceInvadersView.paint);
     }
 }
